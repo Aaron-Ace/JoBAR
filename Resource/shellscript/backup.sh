@@ -1,0 +1,9 @@
+#backup from docker container
+echo starting dump databse...
+sudo docker exec -t 9a91376a0a80  pg_dump -c -U hhc --encoding utf-8 haohaochi_backup | gzip -9 > /odoo/backups/dump_$(date +"%Y-%m-%d-%H-%M").sql.gz 
+echo success dump databse
+echo starting remove old file...
+sudo rm -f dump_$(date -d "(date +"%Y-%m-%d") - 1 days" "+%Y-%m-%d")* | echo successful remove dump_$(date -d "(date +"%Y-%m-%d") - 1 days" "+%Y-%m-%d")*
+
+echo starting chmod file...
+sudo chmod -R 777 . |  echo 'mod change successful'

@@ -1,0 +1,15 @@
+[Unit]
+Description=Odoo Open Source ERP and CRM
+After=network.target
+
+[Service]
+Type=simple
+PermissionsStartOnly=true
+SyslogIdentifier=odoo-server
+ExecStart=sudo /usr/bin/python3  /odoo/odoo-bin -c /odoo/config/odoo.conf
+WorkingDirectory=/odoo
+StandardOutput=journal+console
+restart=always
+
+[Install]
+WantedBy=multi-user.target

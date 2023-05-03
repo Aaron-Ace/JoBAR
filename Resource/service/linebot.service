@@ -1,0 +1,20 @@
+[Unit]
+Description=Line bot for odoo group buying
+After=network.target
+
+[Service]
+Type=simple
+PermissionsStartOnly=true
+SyslogIdentifier=linebot-server
+ExecPre=source /home/feather870611/bots/venv/bin/activate
+ExecStart=/home/feather870611/bots/venv/bin/python  /home/feather870611/bots/app_linebot.py
+
+# Disable Python's buffering of STDOUT and STDERR, so that output from the
+# service shows up immediately in systemd's logs
+Environment=PYTHONUNBUFFERED=1
+StandardOutput=journal+console
+WorkingDirectory=/home/feather870611/bots/
+restart=always
+
+[Install]
+WantedBy=multi-user.target
