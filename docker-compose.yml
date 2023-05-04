@@ -1,0 +1,103 @@
+version: '3.7'
+
+services:
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: andrewchang0910@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: andrewchang!QAZ@WSX
+    container_name: JoBAR_PGADMIN
+    ports:
+      - "5050:80"
+    networks:
+      - app_net
+
+  DB:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgresuser
+      POSTGRES_PASSWORD: postgrespasswd
+      POSTGRES_DB: postgres
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    container_name: JoBAR_POSTGRES
+    ports:
+      - "5432:5432"
+    networks:
+      - app_net
+
+  nginx:
+    image: nginx
+    restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/ssl/certs
+    container_name: JoBAR_NGINX
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - app_net
+
+  portainer:
+    image: portainer/portainer
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    container_name: JoBAR_Portainer
+    ports:
+      - "9000:9000"
+    networks:
+      - app_net
+
+  odoo:
+    image: odoo:16
+    restart: always
+    environment:
+      POSTGRES_USER: postgresuser
+      POSTGRES_PASSWORD: postgrespasswd
+      POSTGRES_DB: postgres
+      PGHOST: DB
+      PGPORT: "5432"
+    volumes:
+      - ./odoo_addons:/var/lib/odoo/addons/16.0
+    depends_on:
+      - DB
+    container_name: JoBAR_Odoo
+    ports:
+      - "8069:8069"
+    networks:
+      - app_net
+
+  bot:
+    image: ubuntu:latest
+    restart: always
+    tty: true
+    stdin_open: true
+    command: bash 
+    volumes:
+      - ./bot_data:/Bot
+    ports:
+      - "5000:5000"
+    networks:
+      - app_net
+    container_name: JoBAR_BOT
+
+  redis:
+    image: redis:latest
+    restart: always
+    container_name: JoBAR_REDIS
+    ports:
+      - "6379:6379"
+    networks:
+      - app_net
+
+networks:
+  app_net:
+
+volumes:
+  portainer_data:
+
