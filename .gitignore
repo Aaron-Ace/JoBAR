@@ -1,5 +1,5 @@
-bot_data/*
-odoo_addons/*
 pgdata/*
 ssl/*
-
+.idea/*
+odoo_addons/.bash_history
+odoo_addons/.psql_history

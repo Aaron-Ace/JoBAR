@@ -63,6 +63,7 @@ services:
       PGHOST: DB
       PGPORT: "5432"
     volumes:
+      - ./odoo_config:/etc/odoo/
       - ./odoo_addons:/var/lib/odoo/addons/16.0
     depends_on:
       - DB
