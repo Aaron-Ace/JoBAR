@@ -29,15 +29,16 @@ services:
       - app_net
 
   nginx:
-    image: nginx
+    image: jc21/nginx-proxy-manager:latest
     restart: always
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./ssl:/etc/ssl/certs
+      - ./letsencrypt:/etc/letsencrypt
+      - ./nginx_data:/data
     container_name: JoBAR_NGINX
     ports:
       - "80:80"
       - "443:443"
+      - "81:81"
     networks:
       - app_net
 
@@ -63,7 +64,9 @@ services:
       PGHOST: DB
       PGPORT: "5432"
     volumes:
-      - ./odoo_addons:/var/lib/odoo/addons/16.0
+      - ./odoo_config:/etc/odoo/
+      - ./odoo_addons:/mnt/extra-addons
+      - ./odoo_webdata:/var/lib/odoo
     depends_on:
       - DB
     container_name: JoBAR_Odoo
@@ -72,19 +75,29 @@ services:
     networks:
       - app_net
 
-  bot:
-    image: ubuntu:latest
+  linebot:
+    image: linebot
     restart: always
     tty: true
-    stdin_open: true
-    command: bash 
     volumes:
-      - ./bot_data:/Bot
+      - ./bot_data:/app
     ports:
       - "5000:5000"
     networks:
       - app_net
-    container_name: JoBAR_BOT
+    container_name: JoBAR_LineBot
+
+  frontendWeb:
+    image: node:latest
+    restart: always
+    tty: true
+    volumes:
+      - ./frontendweb_data:/app
+    ports:
+      - "5051:5051"
+    networks:
+      - app_net
+    container_name: JoBAR_FrontendWeb
 
   redis:
     image: redis:latest

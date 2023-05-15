@@ -1,0 +1,6 @@
+2023/05/09 09:14:08 [alert] 16686#16686: *1002 open socket #26 left in connection 9
+2023/05/09 09:14:08 [alert] 16686#16686: *1003 open socket #29 left in connection 12
+2023/05/09 09:14:08 [alert] 16686#16686: aborting
+2023/05/09 09:20:56 [warn] 663#663: 512 worker_connections are not enough, reusing connections
+2023/05/09 09:20:56 [alert] 663#663: 512 worker_connections are not enough
+2023/05/09 09:20:56 [error] 664#664: *1049 recv() failed (104: Connection reset by peer) while reading response header from upstream, client: 127.0.0.1, server: localhost-nginx-proxy-manager, request: "GET /favicon.ico HTTP/1.1", upstream: "http://127.0.0.1:80/favicon.ico", host: "140.113.193.103"
