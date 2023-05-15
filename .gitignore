@@ -4,3 +4,4 @@ ssl/*
 odoo_addons/.bash_history
 odoo_addons/.psql_history
 __pycache__
+odooweb_data/*
