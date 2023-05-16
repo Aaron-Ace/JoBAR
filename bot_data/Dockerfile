@@ -18,4 +18,4 @@ COPY . .
 EXPOSE 8000
 
 # Run the command to start the application
-CMD [ "python3", "app_linebot.py" ]
+CMD [ "python3", "appLineBot.py" ]
