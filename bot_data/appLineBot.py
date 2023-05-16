@@ -80,6 +80,8 @@ def handle_message(event):
 
     # TODO
     # 驗證過的GROUP才能使用功能
+    # 需要驗證使用者身分
+
 
     if m_content == "/link" or m_content == "/LINK":
         reply_content = "https://liff.line.me/1661139702-8mxWLJ6n"
@@ -91,7 +93,7 @@ def handle_message(event):
         content_split = m_content.split('\n')
 
         if content_split[0] == "/小幫手":
-            reply_content = instructionHelperFunc(content_split, m_user_name)
+            reply_content = instructionHelperFunc(m_user_name)
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_content))
 
         if content_split[0] == "取貨更新" and len(content_split) >= 2:

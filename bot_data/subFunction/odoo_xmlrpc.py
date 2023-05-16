@@ -1,17 +1,18 @@
 import json
 import requests
+import os
 import configparser
 import xmlrpc.client
 from pprint import pprint
 from thefuzz import fuzz, process
 from datetime import timedelta, datetime as dt
+from dotenv import load_dotenv
+load_dotenv()
 
-config = configparser.ConfigParser()
-config.read('config.ini')
-
-url, db, username, password = config.get('odoo', 'url'), config.get('odoo', 'database'), config.get('odoo',
-                                                                                                    'username'), config.get(
-    'odoo', 'password')
+url = os.getenv('ODOO_URL')
+db = os.getenv('ODOO_DATABASE')
+username = os.getenv('ODOO_USERNAME')
+password = os.getenv('ODOO_PASSWORD')
 
 #錯誤重試
 def conflictRetry(func):
@@ -146,7 +147,6 @@ def getValidProducts(models, uid):
                 sum_sold += data['product_uom_qty']
         if tmpl['amount_limit']-sum_sold > 0:
             result.append(tmpl)
-    
     return result
 
 # 取得數量即將不足的產品(Line Notify Use)
