@@ -63,6 +63,7 @@ services:
       POSTGRES_DB: postgres
       PGHOST: DB
       PGPORT: "5432"
+      ODOO_HTTP_SOCKET_TIMEOUT: 20
     volumes:
       - ./odoo_config:/etc/odoo/
       - ./odoo_addons:/mnt/extra-addons
