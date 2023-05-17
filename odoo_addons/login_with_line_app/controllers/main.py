@@ -26,6 +26,7 @@ class OAuthLogin(Home):
         for provider in providers:
             return_url = request.httprequest.url_root + 'auth_oauth/signin'
             state = self.get_state(provider)
+            print("DEBUG:", provider.get('name'))
             if provider.get('name').find("Line") != -1:
                 params = dict(
                     response_type='code',
@@ -41,7 +42,7 @@ class OAuthLogin(Home):
                     redirect_uri=return_url,
                     scope=provider['scope'],
                     state=json.dumps(state),
-		    bot_prompt='normal',
+		            bot_prompt='normal',
                 )
             provider['auth_link'] = "%s?%s" % (provider['auth_endpoint'], werkzeug.urls.url_encode(params))
             print("pro", provider)
@@ -56,7 +57,7 @@ class LineOAuthLogin(login):
         state = dict(
             d=request.session.db,
             p=provider['id'],
-            r=werkzeug.url_quote_plus(redirect),
+            r=werkzeug.urls.url_quote_plus(redirect),
         )
         token = request.params.get('token')
         if token:

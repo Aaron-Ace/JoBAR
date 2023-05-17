@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import json
 import logging
 import requests
 
-from odoo import api, models
+from odoo import api, models, fields
 from odoo.exceptions import AccessDenied, UserError
 from odoo.addons.auth_signup.models.res_users import SignupError
 
@@ -14,21 +13,12 @@ _logger = logging.getLogger(__name__)
 class ResUsers(models.Model):
     _inherit = 'res.users'
 
-    @api.model
-    def _auth_oauth_validate(self, provider, access_token):
-        """ return the validation data corresponding to the access token """
-        oauth_provider = self.env['auth.oauth.provider'].browse(provider)
-        validation = self._auth_oauth_rpc(oauth_provider.validation_endpoint, access_token, provider)
-        if validation.get("error"):
-            raise Exception(validation['error'])
-        if oauth_provider.data_endpoint:
-            data = self._auth_oauth_rpc(oauth_provider.data_endpoint, access_token)
-            validation.update(data)
-        return validation
+    client_secret = fields.Char(string='Client Secret')
+    callback = fields.Char(string='Callback')
 
     @api.model
     def _auth_oauth_signin(self, provider, validation, params):
-        _logger.info("params" + params)
+        _logger.info("params: %s", params)
         oauth_uid = validation['user_id']
         oauth_provider = self.env['auth.oauth.provider'].browse(provider)
         try:
@@ -41,8 +31,8 @@ class ResUsers(models.Model):
         except AccessDenied as access_denied_exception:
             if self.env.context.get('no_user_creation'):
                 return None
-            state = json.loads(params['state'])
-            if oauth_provider.name.find("Line") != -1:
+            state = params.get('state')
+            if (oauth_provider.name) == "LineApp":
                 token = params.get('access_token')
             else:
                 token = state.get('t')
@@ -54,32 +44,17 @@ class ResUsers(models.Model):
                 raise access_denied_exception
 
     @api.model
-    def _auth_oauth_validate(self, provider, access_token):
-        """ return the validation data corresponding to the access token """
-        oauth_provider = self.env['auth.oauth.provider'].browse(provider)
-        validation = self._auth_oauth_rpc(oauth_provider.validation_endpoint, access_token, provider)
-        if validation.get("error"):
-            raise Exception(validation['error'])
-        if oauth_provider.data_endpoint:
-            data = self._auth_oauth_rpc(oauth_provider.data_endpoint, access_token)
-            validation.update(data)
-        return validation
-
-    @api.model
     def auth_oauth(self, provider, params):
+        client_secret = "a512b710507d682c5dd847b7b49bca89"
+        callback = "http://manage.jobar.shop/auth_oauth/signin"
 
-        client_secret = "948f4566998ac5d71f8d3cf733162e80"
-        callback = "https://haohaochi.subuy.net/auth_oauth/signin"
         oauth_provider = self.env['auth.oauth.provider'].browse(provider)
-        _logger.info("Test by Aaronace")
-        _logger.info("params" + params)
-
-        if oauth_provider.name.find("Line") != 5:
+        _logger.info("params: %s", params)
+        if (oauth_provider.name) != "LineApp":
             line_headers = {'Content-Type': 'application/x-www-form-urlencoded'}
             token_line_params = {
                 "grant_type": "authorization_code",
-                "client_id": oauth_provider.cliend_id,
-                # "client_secret": oauth_provider.client_secret,
+                "client_id": oauth_provider.client_id,
                 "client_secret": client_secret,
                 "code": params.get('code'),
                 "redirect_uri": callback
@@ -87,28 +62,26 @@ class ResUsers(models.Model):
 
             response_token = requests.post("https://api.line.me/oauth2/v2.1/token", data=token_line_params,
                                            headers=line_headers)
-            load = json.loads(response_token.text)
-
-            access_token = load.get("access_token")
-            id_token = load.get("id_token")
+            token_data = response_token.json()
+            access_token = token_data.get("access_token")
+            id_token = token_data.get("id_token")
 
             profile_line_params = {
                 "id_token": id_token,
-                "client_id": oauth_provider.cliend_id,
+                "client_id": oauth_provider.client_id,
             }
 
             params["access_token"] = access_token
-            validation = requests.post("https://api.line.me/oauth2/v2.1/verify", data=profile_line_params,
-                                       headers=line_headers)
-            validation = json.loads(validation.text)
+            response_validation = requests.post("https://api.line.me/oauth2/v2.1/verify", data=profile_line_params,
+                                                headers=line_headers)
+            validation = response_validation.json()
             validation['user_id'] = validation['sub']
-            _logger.info("user_id" + validation['user_id'])
+            _logger.info("user_id: %s", validation['user_id'])
         else:
             access_token = params.get('access_token')
             validation = self._auth_oauth_validate(provider, access_token)
-        # required check
+
         if not validation.get('user_id'):
-            # Workaround: facebook does not send 'user_id' in Open Graph Api
             if validation.get('id'):
                 validation['user_id'] = validation['id']
             elif validation.get('username'):
@@ -118,9 +91,8 @@ class ResUsers(models.Model):
             else:
                 raise AccessDenied()
 
-        # retrieve and sign in user
         login = self._auth_oauth_signin(provider, validation, params)
         if not login:
             raise AccessDenied()
-        # return user credentials
+
         return (self.env.cr.dbname, login, access_token)
