@@ -4,4 +4,9 @@ ssl/*
 odoo_addons/.bash_history
 odoo_addons/.psql_history
 __pycache__
-odooweb_data/*
+odoo_webdata/*
+bot_data/.env
+bot_data/config.ini
+nginx_data/*
+letsencrypt/*
+pgdata/*
