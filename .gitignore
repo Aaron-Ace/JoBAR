@@ -3,7 +3,7 @@ ssl/*
 .idea/*
 odoo_addons/.bash_history
 odoo_addons/.psql_history
-odooweb_data/*
+odoo_webdata/*
 bot_data/.env
 bot_data/config.ini
 nginx_data/*
