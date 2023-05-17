@@ -6,3 +6,7 @@ odoo_addons/.psql_history
 odooweb_data/*
 bot_data/.env
 bot_data/config.ini
+nginx_data/*
+letsencrypt/*
+pgdata/*
+
