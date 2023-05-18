@@ -68,6 +68,7 @@ services:
       - ./odoo_config:/etc/odoo/
       - ./odoo_addons:/mnt/extra-addons
       - ./odoo_webdata:/var/lib/odoo
+      - ./log/odoo_log:/var/log
     depends_on:
       - DB
     container_name: JoBAR_Odoo

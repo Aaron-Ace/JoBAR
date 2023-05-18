@@ -10,3 +10,4 @@ bot_data/config.ini
 nginx_data/*
 letsencrypt/*
 pgdata/*
+log/*
