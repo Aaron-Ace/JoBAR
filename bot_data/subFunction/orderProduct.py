@@ -1,6 +1,6 @@
 from .odoo_xmlrpc import *
 
-def orderProductFunc(models, uid, m_user_name, content_split):
+def orderProductFunc(models, uid, m_user_name,m_user_id, content_split):
     reply_content = 'Hi, ' + m_user_name + ':\n'
 
     sign_rules = {

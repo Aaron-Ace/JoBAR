@@ -110,13 +110,14 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_content))
 
         if content_split[0].strip() == '下單' and len(content_split) > 1:
-            reply_content = orderProductFunc(models, uid, m_user_name, content_split)
+            reply_content = orderProductFunc(models, uid, m_user_name, m_user_id, content_split)
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_content))
 
 
     # 在個人聊天室時做的事
     elif event.source.type == 'user':
         m_chatroom_name = "自己的聊天室"
+
         if m_content.strip() == '個人訂單' or m_content.strip() == '取貨總額':
             reply_content = personalOrderFunc(models, uid, m_user_name, m_user_id)
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_content))

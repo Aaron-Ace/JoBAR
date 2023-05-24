@@ -107,8 +107,8 @@ def getOrderData(models, uid, order_id):
     return rdata[0]
 
 def getOrderDetail(models, uid, order_id):
-    ldata = models.execute_kw(db, uid, password, 
-                              'sale.order.line', 'search_read', 
+    ldata = models.execute_kw(db, uid, password,
+                              'sale.order.line', 'search_read',
                               [[['order_id','=',order_id]]],
                               {'fields':['id', 'name', 'price_unit','product_uom_qty']})
     return ldata
@@ -120,7 +120,7 @@ def getValidProducts(models, uid):
                               [[['sale_ok', '=', True]]],
                               {'fields': ['id', 'name', 'amount_limit', 'sale_start_date', 'sale_end_date','list_price', 'product_keywords']}
                               )
-                              
+
     ids = list(set([d['id'] for d in tdatas]))
     pdatas = models.execute_kw(db, uid, password,
                             'product.product', 'search_read',
@@ -203,14 +203,14 @@ def getProductDataWithKeyword(models, uid, product_keyword):
         return []
     # else:
     #     return pdata[0]
-    
+
     t_id = tdata[0]['id']
     pdata = models.execute_kw(db, uid, password,
                               'product.product', 'search_read',
                               [[['product_tmpl_id', '=', t_id]]],
                               {'fields': ['id']}
                               )
-    
+
     tdata[0]['id']=pdata[0]['id']
     return tdata[0]
 
@@ -238,8 +238,8 @@ def checkInStock(models, uid, product_id, amount):
                               [[['id', '=', tmpl_id]]],
                               {'fields': ['id', 'name', 'amount_limit', 'sale_start_date', 'sale_end_date']}
                               )
-    
-    
+
+
 
     odatas = models.execute_kw(db, uid, password,
                                'sale.order.line', 'search_read',
@@ -306,7 +306,7 @@ def newOrder(models, uid, user_fk, pickup_date, pickup_area_fk):
             'pickup_area': pickup_area_fk,
             'pickup_date': pickup_date,
             'state': 'sale'
-        }])    
+        }])
         return result_id
     else:
         return pre_search[0]
@@ -467,7 +467,7 @@ def updateFbPost(models, uid, id, updatedTime, content):
     }])
 
     return 0
-    
+
 
 # 將符合規則的留言加入資料庫
 def addComment(models, uid, partnerId, postId, commentId, content, state, createdTime):
