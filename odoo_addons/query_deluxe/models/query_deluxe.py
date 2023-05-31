@@ -10,10 +10,11 @@ class QueryDeluxe(models.Model):
     rowcount = fields.Text(string='Rowcount')
     html = fields.Html(string='HTML')
 
-    name = fields.Char(string='資料庫語法(忽略即可)')
+    name = fields.Char(string='資料庫語法')
     valid_query_name = fields.Char()
 
-    note = fields.Text(string="備註")
+    note = fields.Text(string="功能名稱")
+    raw_output = fields.Text(string='原始輸出')
 
     def print_result(self):
         return {
@@ -32,9 +33,7 @@ class QueryDeluxe(models.Model):
             self.name = self.tips.name
 
     def execute(self):
-        self.show_raw_output = False
         self.raw_output = ''
-
         self.rowcount = ''
         self.html = '<br></br>'
 
@@ -68,33 +67,31 @@ class QueryDeluxe(models.Model):
                 self.valid_query_name = self.name
                 self.raw_output = datas
 
-                header_html = "".join(["<th style='border: 1px solid'>" + str(header) + "</th>" for header in headers])
+                header_html = "".join(["<th style='border: 1px solid; font-size: 20px; font-weight: bold'>" + str(header) + "</th>" for header in headers])
                 header_html = "<tr>" + "<th style='background-color:white !important'/>" + header_html + "</tr>"
 
                 body_html = ""
                 i = 0
                 for data in datas:
                     i += 1
-                    body_line = "<tr>" + "<td style='border-right: 3px double; border-bottom: 1px solid; background-color: black'>{0}</td>".format(
-                        i)
+                    body_line = "<tr>" + "<td style='border-right: 3px double; border: 1px solid; background-color: white'>{0}</td>".format(i)
                     for value in data:
                         body_line += "<td style='border: 1px solid; background-color: {0}'>{1}</td>".format(
-                            'iron' if i % 2 == 0 else 'grey', str(value) if (value is not None) else '')
+                            'iron' if i % 2 == 0 else '#F0F8FF', str(value) if (value is not None) else '')
 
                     body_line += "</tr>"
                     body_html += body_line
 
                 self.html = """
-                            <table style="text-align: center">
-                              <thead style="background-color: black">
-                                {0}
-                              </thead>
-                            
-                              <tbody>
-                                {1}
-                              </tbody>
-                            </table>
-                            """.format(header_html, body_html)
+                            <div style="overflow: auto; max-height: 400px; width: 50%">
+                                <table style="text-align: center">
+                                  <thead style="background-color: white">{0}</thead>
+                                  <tbody>{1}</tbody>
+                                </table>
+                            </div>""".format(header_html, body_html)
+
+
+
 
 
 class QueryPickup(models.Model):
@@ -132,7 +129,6 @@ class QueryPickup(models.Model):
     def execute(self):
         self._show_user_discount()
         self.discount_lock = False
-        self.show_raw_output = False
         self.update_lock = False
         self.raw_output = ''
 
