@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<link rel="stylesheet" href="style.css">
+	<title>JoBAR</title>
+</head>
+<body>
+	
+	<!-- SIDEBAR -->
+	<section id="sidebar">
+		<a href="#" class="brand"><i class='bx bxs-group icon'></i> JoBAR</a>
+		<ul class="side-menu">
+			<li><a href="#" class="active"><i class='bx bxs-id-card icon' ></i> 我的帳戶</a></li>
+			<li class="divider" data-text="main">Main</li>
+			<li><a href="#"><i class='bx bxs-inbox icon' ></i> 活動紀錄</a></li>
+			<li><a href="#"><i class='bx bxs-cart icon' ></i> 購買清單</a></li>
+			<li class="divider" data-text="others">Others</li>
+			<li><a href="#"><i class='bx bxs-purchase-tag icon'></i> 我的優惠券</a></li>
+			<li><a href="#"><i class='bx bxs-bell-ring icon' ></i> 通知總覽 </a></li>
+		</ul>
+	</section>
+	<!-- SIDEBAR -->
+
+	<!-- NAVBAR -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav>
+			<i class='bx bx-menu toggle-sidebar' ></i>
+			<form action="#">
+				<div class="form-group">
+					<input type="text" placeholder="搜尋">
+					<i class='bx bx-search icon' ></i>
+				</div>
+			</form>
+			<span class="divider"></span>
+			<div class="profile">
+				<img src="./img/user-icon.png" alt="">
+				<ul class="profile-link">
+					<li><a href="#"><i class='bx bxs-cog' ></i> 設定</a></li>
+					<li><a href="#"><i class='bx bxs-log-out' ></i> 登出</a></li>
+				</ul>
+			</div>
+		</nav>
+		<!-- NAVBAR -->
+
+		<!-- MAIN -->
+		<main>
+			<h1 class="title">我的帳戶</h1>
+			<ul class="breadcrumbs">
+				<li><a href="#">Home</a></li>
+				<li class="divider">/</li>
+				<li><a href="#" class="active">我的帳戶</a></li>
+			</ul>
+			<!-- MY INFO -->
+			<div class="info-data">
+				<div class="card">
+					<div class="head">
+						<div>
+							<h2>我的檔案</h2>
+							<p>管理你的檔案以保護你的帳戶</p>
+						</div>
+					</div>
+					<div class="user-info">
+						<form>
+						  <table>
+								<tr>
+									<td class="espR83">
+										<label>姓名</label>
+									</td>
+									<td>
+										<div>
+											<input type="text" placeholder="姓名" value="王小明" disabled>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="espR83">
+										<label>手機號碼</label>
+									</td>
+									<td>
+										<div>
+											<input type="text" placeholder="手機號碼" value="09** - *** - 321" disabled>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="espR83">
+										<label>取貨常用地點</label>
+									</td>
+									<td>
+										<div>
+											<input type="text" placeholder="取貨常用地點" value="新竹市東區大學路1001號" disabled>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="espR83">
+										<label>性別</label>
+									</td>
+									<td>
+										<div>
+											<input type="text" placeholder="性別" value="男" disabled>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="espR83">
+										<label>生日</label>
+									</td>
+									<td>
+										<div>
+											<input type="text" placeholder="生日" value="2023/06/07" disabled>
+										</div>
+									</td>
+								</tr>
+								<!-- <tr>
+									<td class="espR83">
+									</td>
+									<td>
+										<div>
+											<button>修改檔案</button>
+										</div>
+									</td>
+								</tr> -->
+						  </table>
+						</form>
+					</div>
+				</div>
+			</div>
+		</main>
+		<!-- MAIN -->
+	</section>
+	<!-- NAVBAR -->
+
+	<script src="script.js"></script>
+</body>
+</html>
