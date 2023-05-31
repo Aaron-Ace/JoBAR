@@ -11,6 +11,7 @@ class Contacts(models.Model):
     fb_app_id = fields.Char(string='FB應用程式編號', default=None)
     user_discount = fields.Integer(string='購物金', default=50, readonly=False, index=True,)
     is_enroll = fields.Boolean(string='是否註冊成功', default=False)
+    score = fields.Integer(string='信用分數', default=999, readonly=False,)
 
     _sql_constraints = [
         ('name_uniq', 'unique (fb_app_id)', '請填寫自己的FB應用程式編號!'),

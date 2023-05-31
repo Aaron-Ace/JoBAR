@@ -11,7 +11,7 @@ services:
     ports:
       - "5050:80"
     networks:
-      - app_net
+      app_net:
 
   DB:
     image: postgres
@@ -26,7 +26,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - app_net
+      app_net:
 
   nginx:
     image: jc21/nginx-proxy-manager:latest
@@ -40,7 +40,7 @@ services:
       - "443:443"
       - "81:81"
     networks:
-      - app_net
+      app_net:
 
   portainer:
     image: portainer/portainer
@@ -52,7 +52,7 @@ services:
     ports:
       - "9000:9000"
     networks:
-      - app_net
+      app_net:
 
   odoo:
     image: odoo:16
@@ -63,17 +63,19 @@ services:
       POSTGRES_DB: postgres
       PGHOST: DB
       PGPORT: "5432"
+      ODOO_HTTP_SOCKET_TIMEOUT: 20
     volumes:
       - ./odoo_config:/etc/odoo/
       - ./odoo_addons:/mnt/extra-addons
       - ./odoo_webdata:/var/lib/odoo
+      - ./log/odoo_log:/var/log
     depends_on:
       - DB
     container_name: JoBAR_Odoo
     ports:
       - "8069:8069"
     networks:
-      - app_net
+      app_net:
 
   linebot:
     image: linebot
@@ -83,9 +85,10 @@ services:
       - ./bot_data:/app
     ports:
       - "5000:5000"
-    networks:
-      - app_net
     container_name: JoBAR_LineBot
+    networks:
+      app_net:
+
 
   frontendWeb:
     image: node:latest
@@ -95,9 +98,10 @@ services:
       - ./frontendweb_data:/app
     ports:
       - "5051:5051"
-    networks:
-      - app_net
     container_name: JoBAR_FrontendWeb
+    networks:
+      app_net:
+
 
   redis:
     image: redis:latest
@@ -106,10 +110,11 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - app_net
+      app_net:
 
 networks:
   app_net:
+
 
 volumes:
   portainer_data:
