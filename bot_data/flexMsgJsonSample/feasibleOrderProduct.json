@@ -1,0 +1,120 @@
+{
+  "type": "bubble",
+  "size": "giga",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "可訂商品",
+        "weight": "bold",
+        "color": "#1DB446",
+        "size": "sm"
+      },
+      {
+        "type": "text",
+        "text": "商品明細",
+        "weight": "bold",
+        "size": "xxl",
+        "margin": "md"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "margin": "xxl",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "text",
+                "text": "關鍵字"
+              },
+              {
+                "type": "text",
+                "text": "千層派",
+                "size": "sm",
+                "color": "#555555",
+                "flex": 0
+              },
+              {
+                "type": "text",
+                "text": "$2.99",
+                "size": "sm",
+                "color": "#111111",
+                "align": "center"
+              },
+              {
+                "type": "text",
+                "text": "2023-06-14",
+                "size": "md"
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "text",
+                "text": "關鍵字"
+              },
+              {
+                "type": "text",
+                "text": "千層派",
+                "size": "sm",
+                "color": "#555555",
+                "flex": 0
+              },
+              {
+                "type": "text",
+                "text": "$2.99",
+                "size": "sm",
+                "color": "#111111",
+                "align": "center"
+              },
+              {
+                "type": "text",
+                "text": "2023-06-14",
+                "size": "md"
+              }
+            ]
+          },
+          {
+            "type": "separator",
+            "margin": "xxl"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "margin": "xxl",
+            "contents": [
+              {
+                "type": "text",
+                "size": "sm",
+                "color": "#555555",
+                "text": "[範例]\n下單\n蘋果+1(換行)\n橘子+3",
+                "wrap": true
+              },
+              {
+                "type": "text",
+                "size": "sm",
+                "color": "#555555",
+                "text": "※請前往群組下單",
+                "wrap": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "styles": {
+    "footer": {
+      "separator": true
+    }
+  }
+}
