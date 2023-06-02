@@ -44,7 +44,7 @@ def buildJson(name, price, amount):
     }
 
 
-def buildPersonalOrderFlexMsg(pickup_date, pickup_area, product_list_json, items_count, amount_total, sale_order_id):
+def buildPersonalOrderFlexMsg(pickup_date, pickup_area, product_list_json, sale_order_id):
     personalOrderFlexMsg = {
         "type": "bubble",
         "size": "giga",
@@ -161,12 +161,15 @@ def personalOrderFunc(line_bot_api, event, models, uid, m_user_name, m_user_id):
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_content))
         else:
             dts = sorted(list(set([d['pickup_date'] for d in odatas])))
+            MsgList = []
             for dt in dts:
-                MsgList = []
                 plas = list(set([d['pickup_area'][1] for d in odatas]))
                 for pla in plas:
                     orders = [d['id'] for d in odatas if d['pickup_area'][1] == pla and d['pickup_date'] == dt]
-                    orders_name = [d['name'] for d in odatas if d['pickup_area'][1] == pla and d['pickup_date'] == dt]
+                    try:
+                        orders_name = [d['name'] for d in odatas if d['pickup_area'][1] == pla and d['pickup_date'] == dt][0]
+                    except:
+                        continue
                     details = getOrderDetail(models, uid, orders)
                     prdts = [{'name': d['name'], 'price': d['price_unit']} for d in details]
                     prdts = [dict(t) for t in {tuple(d.items()) for d in prdts}]
@@ -182,7 +185,7 @@ def personalOrderFunc(line_bot_api, event, models, uid, m_user_name, m_user_id):
                     json_list.append(buildSeperateJson())
                     json_list.append(buildItemsCountJson(count))
                     json_list.append(buildTotalJson(amount_total))
-                    temp = buildPersonalOrderFlexMsg(dt, pla, json_list,count, amount_total, orders_name[0])
+                    temp = buildPersonalOrderFlexMsg(dt, pla, json_list, orders_name)
                     MsgList.append(temp)
             print("回覆Flex Message")
             line_bot_api.push_message(m_user_id, personalOrderFlexMsgSend(MsgList))

@@ -110,7 +110,7 @@ def handle_message(event):
 
         # 「可訂商品」關鍵字適用於群組及個人
         if m_content == '可訂商品':
-            feasibleOrderProductFunc(line_bot_api, models, uid, m_user_id)
+            feasibleOrderProductFunc(line_bot_api, models, uid, event.source.group_id)
 
         if content_split[0].strip() == '下單' and len(content_split) > 1:
             reply_content = orderProductFunc(models, uid, m_user_name, m_user_id, content_split)
