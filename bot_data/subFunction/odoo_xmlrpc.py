@@ -118,7 +118,7 @@ def getValidProducts(models, uid):
     tdatas = models.execute_kw(db, uid, password,
                               'product.template', 'search_read',
                               [[['sale_ok', '=', True]]],
-                              {'fields': ['id', 'name', 'amount_limit', 'sale_start_date', 'sale_end_date','list_price', 'product_keywords']}
+                              {'fields': ['id', 'name', 'amount_limit', 'sale_start_date', 'sale_end_date','list_price', 'product_keywords', 'list_price']}
                               )
 
     ids = list(set([d['id'] for d in tdatas]))
@@ -697,7 +697,6 @@ def updatePostState(models, uid, post_id, state):
     # uid = get_uid()
     # Update records
     pdatas = models.execute_kw(db, uid, password, 'facebookmanage', 'search', [[['page_id', '=', post_id]]])
-    print(pdatas)
     models.execute_kw(db, uid, password, 'facebookmanage', 'write', [ pdatas, {
         'is_valid': state
     }])
