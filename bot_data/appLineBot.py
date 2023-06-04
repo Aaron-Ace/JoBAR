@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 
+from subFunction.pickupInfo import pickupInfoFunc
 from subFunction.customerService import customerServiceFunc
 from subFunction.feasibleOrderProduct import feasibleOrderProductFunc
 from subFunction.instructionHelper import instructionHelperFunc
@@ -82,7 +83,6 @@ def handle_message(event):
     # 驗證過的GROUP才能使用功能
     # 需要驗證使用者身分
 
-
     if m_content == "/link" or m_content == "/LINK":
         reply_content = "https://liff.line.me/1661139702-8mxWLJ6n"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_content))
@@ -92,43 +92,44 @@ def handle_message(event):
         m_chatroom_name = line_bot_api.get_group_summary(event.source.group_id).group_name
         content_split = m_content.split('\n')
 
+        if m_content == "/":
+            reply_content = "可訂商品\n下單"
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_content))
+
         if content_split[0] == "/小幫手":
             reply_content = instructionHelperFunc(m_user_name)
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_content))
 
-        if content_split[0] == "取貨更新" and len(content_split) >= 2:
-            reply_content = productModifyFunc(models, uid, content_split)
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_content))
-
-        if content_split[0] == "貨品刪除" and len(content_split) >= 2:
-            reply_content = productDeleteFunc(models, uid, content_split)
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_content))
+#         if content_split[0] == "取貨更新" and len(content_split) >= 2:
+#             reply_content = productModifyFunc(models, uid, content_split)
+#             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_content))
+#
+#         if content_split[0] == "貨品刪除" and len(content_split) >= 2:
+#             reply_content = productDeleteFunc(models, uid, content_split)
+#             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_content))
 
         # 「可訂商品」關鍵字適用於群組及個人
         if m_content == '可訂商品':
-            reply_content = feasibleOrderProductFunc(models, uid, m_user_name)
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_content))
+            feasibleOrderProductFunc(line_bot_api, models, uid, event.source.group_id)
 
         if content_split[0].strip() == '下單' and len(content_split) > 1:
-            reply_content = orderProductFunc(models, uid, m_user_name, content_split)
+            reply_content = orderProductFunc(models, uid, m_user_name, m_user_id, content_split)
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_content))
 
 
     # 在個人聊天室時做的事
     elif event.source.type == 'user':
         m_chatroom_name = "自己的聊天室"
+
+        if m_content == "/":
+            reply_content = "個人訂單\n取貨總額\n取貨資訊\n客服聯繫\n可訂商品\n個人資訊"
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_content))
+
         if m_content.strip() == '個人訂單' or m_content.strip() == '取貨總額':
-            reply_content = personalOrderFunc(models, uid, m_user_name, m_user_id)
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_content))
+            personalOrderFunc(line_bot_api, event, models, uid, m_user_name, m_user_id)
 
         if m_content == '取貨資訊':
-            line_bot_api.reply_message(
-                event.reply_token,
-                ImageSendMessage(
-                    original_content_url='https://haohaochi.subuy.net/web/image/3026/S__119816203_0.jpg',
-                    preview_image_url='https://haohaochi.subuy.net/web/image/3026/S__119816203_0.jpg'
-                )
-            )
+            pickupInfoFunc(line_bot_api, m_user_id)
 
         if m_content == '客服聯繫':
             reply_content = customerServiceFunc(m_user_name)
@@ -136,12 +137,10 @@ def handle_message(event):
 
         # 「可訂商品」關鍵字適用於群組及個人
         if m_content == '可訂商品':
-            reply_content = feasibleOrderProductFunc(models, uid, m_user_name)
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_content))
+            feasibleOrderProductFunc(line_bot_api, models, uid, m_user_id)
 
         if m_content == '個人資訊':
-            reply_content = personalDataFunc(models, uid, m_user_id, m_user_name)
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_content))
+            personalDataFunc(line_bot_api, event, models, uid, m_user_id, m_user_name)
 
     print('-----------------------------------------')
     print('[訊息內容]')

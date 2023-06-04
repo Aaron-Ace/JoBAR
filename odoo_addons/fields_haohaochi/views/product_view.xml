@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="product.product_template_only_form_view"/>
         <field name="arch" type="xml">
 			
-            <field name="type" position="after">
+            <field name="invoice_policy" position="after">
 				<field name="product_keywords"/>
 				<field name="pickup_date"/>
 				<field name="sale_start_date"/>

@@ -6,7 +6,7 @@
 		<field name="model">querydeluxe</field>
 		<field name="arch" type="xml">
 			<tree>
-				<field name="note" string="備註"/>
+				<field name="note" string="功能名稱"/>
 			</tree>
 		</field>
 	</record>
@@ -16,7 +16,7 @@
 		<field name="model">querypickup</field>
 		<field name="arch" type="xml">
 			<tree>
-				<field name="note" string="備註"/>
+				<field name="note" string="功能名稱"/>
 			</tree>
 		</field>
 	</record>
@@ -28,20 +28,13 @@
 		<field name="arch" type="xml">
 			<form>
 				<sheet>
-					<group colspan="4">
+					<group string="標題" colspan="4">
 						<field name="note"/>
 					</group>
-					
-					<group string="資料庫語法(忽略即可)" colspan="4">
-						<field name="name" nolabel="1" placeholder="SELECT * FROM res_partner"/>
-					</group>
-					
 					<button name="execute" type="object" string="查詢結果" class="oe_highlight"/>
-					<button name="print_result" string="列印PDF文件" type="object" class="oe_highlight"/>
-
-					<div style="overflow:visible !important;">
+					<button name="print_result" string="下載PDF文件" type="object" class="oe_highlight"/>
+					<div style="width: 100%">
 						<group>
-
 							<group colspan="4">
 								<field name="html" readonly="1" nolabel="1"/>
 							</group>

@@ -35,7 +35,6 @@
 		<field name="arch" type="xml">
 			<form>
 				<sheet>
-					<button name="updateComment" string="貼文參數" type="object" class="oe_highlight" />
 					<group>
 						<field name="is_valid"/>
 						<field name="update_time"/>
