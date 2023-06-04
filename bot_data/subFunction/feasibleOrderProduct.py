@@ -99,6 +99,6 @@ def feasibleOrderProductFunc(line_bot_api, models, uid, m_user_id):
         MsgList.append(buildProductJson(item['product_keywords'], item['list_price']))
     MsgList.append(buildSeperateJson())
     MsgList.append(buildCommentJson())
-    MsgSend = FlexSendMessage(alt_text="FeasibleProduct", contents=buildFlexMsg(MsgList))
+    MsgSend = FlexSendMessage(alt_text="可訂商品", contents=buildFlexMsg(MsgList))
     print("回覆Flex Message")
     line_bot_api.push_message(m_user_id, MsgSend)

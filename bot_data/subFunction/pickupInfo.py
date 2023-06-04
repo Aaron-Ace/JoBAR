@@ -135,4 +135,4 @@ def pickupInfoFunc(line_bot_api, m_user_id):
         ]
     }
     print("回覆Flex Message")
-    line_bot_api.push_message(m_user_id, FlexSendMessage(alt_text="pickupInfo", contents=jsonMsg))
+    line_bot_api.push_message(m_user_id, FlexSendMessage(alt_text="取貨資訊", contents=jsonMsg))

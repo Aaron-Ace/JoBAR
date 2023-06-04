@@ -146,7 +146,7 @@ def buildPersonalOrderFlexMsg(pickup_date, pickup_area, product_list_json, sale_
 
 def personalOrderFlexMsgSend(MsgList):
     personalOrderFlexMsgCarousel = {"type": "carousel", "contents":MsgList}
-    return FlexSendMessage(alt_text="PersonalOrder", contents=personalOrderFlexMsgCarousel)
+    return FlexSendMessage(alt_text="個人訂單", contents=personalOrderFlexMsgCarousel)
 
 
 def personalOrderFunc(line_bot_api, event, models, uid, m_user_name, m_user_id):

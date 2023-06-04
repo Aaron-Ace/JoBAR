@@ -152,9 +152,9 @@ def orderProductFunc(models, uid, m_user_name,m_user_id, content_split):
     elif flag == 2:
         reply_content += '我找不到這樣商品耶...😅\n請確認關鍵字正確之後再試一遍😘'
     elif flag == 3:
-        reply_content += '您好像還沒綁定帳號喔🧐\n請前往下方網址以Line註冊登入並且填寫相關資料\nhttps://reurl.cc/an9xXX'
+        reply_content += '您好像還沒綁定帳號喔🧐\n請前往下方網址以Line註冊登入並且填寫相關資料\nhttps://liff.line.me/1661139702-8mxWLJ6n'
     elif flag == 4:
-        reply_content += '您尚未設定有效的取貨地點哦😮\n請前往下方網址設定!\nhttps://reurl.cc/an9xXX'
+        reply_content += '您尚未設定有效的取貨地點哦😮\n請前往下方網址設定!\nhttps://liff.line.me/1661139702-8mxWLJ6n'
     elif flag == 5:
         reply_content += '請您調整數量後再嘗試🥲'
     elif flag == 6:

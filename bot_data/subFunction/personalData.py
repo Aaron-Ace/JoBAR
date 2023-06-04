@@ -132,7 +132,7 @@ def buildFlexMsgJson(customer_id, email, area, money):
             }
         }
     }
-    return FlexSendMessage(alt_text="FeasibleProduct", contents=jsonMsg)
+    return FlexSendMessage(alt_text="個人資料", contents=jsonMsg)
 
 
 def personalDataFunc(line_bot_api, event,  models, uid, m_user_id, m_user_name):
