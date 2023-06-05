@@ -3,7 +3,7 @@ from .odoo_xmlrpc import *
 from datetime import datetime, timedelta
 
 def find_chinese(file):
-    pattern = re.compile(r'[^\u4e00-\u9fa5\w\n+＋]')
+    pattern = re.compile(r'[^\u4e00-\u9fa5\w\n++]')
     chinese = re.sub(pattern, '', file)
     return chinese
 
