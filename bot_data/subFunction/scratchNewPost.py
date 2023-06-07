@@ -18,7 +18,9 @@ def scratchNewPost(models, uid, post_result):
     for post in post_result['data']:
         postId = post['id']
         postUdTime = utcEight(post['updated_time'])
+        # print("h1")
         postInfo = getFbPost(models, uid, postId)
+        # print("h2")
         addr = postId.split('_')
         address = 'https://www.facebook.com/groups/' + addr[0] + '/posts/' + addr[1] + '/'
         try:
