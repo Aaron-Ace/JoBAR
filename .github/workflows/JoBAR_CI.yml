@@ -17,18 +17,15 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
-          cd tests/unittest
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi      
       - name: Run test_subFunction3.py
         run: |
-          cd tests/unittest
-          python3 -m unittest test_subFunction3.py
-          coverage run test_subFunction3.py
+          python3 -m unittest ./tests/unittest/test_subFunction3.py
+          coverage run ./tests/unittest/test_subFunction3.py
           coverage report -m          
       - name: Run test_subFunction.py
         run: |
-          cd tests/unittest
-          python3 -m unittest test_subFunction.py
-          coverage run test_subFunction.py
+          python3 -m ./tests/unittest/test_subFunction.py
+          coverage run ./tests/unittest/test_subFunction.py
           coverage report -m
